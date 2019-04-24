@@ -13,6 +13,8 @@
 		CE279F5A226DE6EE00AACEBD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE279F58226DE6EE00AACEBD /* LaunchScreen.storyboard */; };
 		CE279F62226E072800AACEBD /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE279F61226E072800AACEBD /* Registration.swift */; };
 		CE279F64226E089300AACEBD /* RoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE279F63226E089300AACEBD /* RoomType.swift */; };
+		CEF2CC4F2270E9B70020DD72 /* RegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2CC4E2270E9B70020DD72 /* RegistrationTableViewController.swift */; };
+		CEF2CC522271043E0020DD72 /* IndexPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2CC512271043E0020DD72 /* IndexPath+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		CE279F5B226DE6EE00AACEBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE279F61226E072800AACEBD /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		CE279F63226E089300AACEBD /* RoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomType.swift; sourceTree = "<group>"; };
+		CEF2CC4E2270E9B70020DD72 /* RegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTableViewController.swift; sourceTree = "<group>"; };
+		CEF2CC512271043E0020DD72 /* IndexPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "IndexPath+Extension.swift"; path = "../IndexPath+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +60,10 @@
 		CE279F4E226DE6ED00AACEBD /* Hotel_Manzana */ = {
 			isa = PBXGroup;
 			children = (
+				CEF2CC53227104440020DD72 /* Extensions */,
 				CE279F65226E09BD00AACEBD /* Models */,
 				CE279F66226E09D800AACEBD /* Views */,
+				CEF2CC502270E9BE0020DD72 /* ViewControllers */,
 				CE279F68226E0A0D00AACEBD /* Supporting Files */,
 			);
 			path = Hotel_Manzana;
@@ -97,6 +103,22 @@
 				CE279F5B226DE6EE00AACEBD /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEF2CC502270E9BE0020DD72 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CEF2CC4E2270E9B70020DD72 /* RegistrationTableViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CEF2CC53227104440020DD72 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CEF2CC512271043E0020DD72 /* IndexPath+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,7 +194,9 @@
 			files = (
 				CE279F62226E072800AACEBD /* Registration.swift in Sources */,
 				CE279F50226DE6ED00AACEBD /* AppDelegate.swift in Sources */,
+				CEF2CC4F2270E9B70020DD72 /* RegistrationTableViewController.swift in Sources */,
 				CE279F64226E089300AACEBD /* RoomType.swift in Sources */,
+				CEF2CC522271043E0020DD72 /* IndexPath+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
