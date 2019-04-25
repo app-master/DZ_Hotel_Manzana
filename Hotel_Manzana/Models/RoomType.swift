@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias RoomTypes = [RoomType]
+
 struct RoomType {
     
     var id: Int
@@ -21,6 +23,16 @@ extension RoomType: Equatable {
     
     static func == (lhs: RoomType, rhs: RoomType) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+}
+
+extension RoomTypes {
+    
+    static func loadRoomTypes() -> RoomTypes {
+        return [RoomType(id: 0, name: "Double Queens", shortName: "2Q", price: 179),
+                RoomType(id: 1, name: "One King", shortName: "1K", price: 209),
+                RoomType(id: 2, name: "Penthouse", shortName: "PHS", price: 270)]
     }
     
 }

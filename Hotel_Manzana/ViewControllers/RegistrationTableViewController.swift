@@ -10,7 +10,7 @@ import UIKit
 
 class RegistrationTableViewController: UITableViewController {
 
-    // MARK: - IB Outlet
+    // MARK: - IB Outlets
     
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
@@ -21,8 +21,19 @@ class RegistrationTableViewController: UITableViewController {
     @IBOutlet weak var checkOutDateLabel: UILabel!
     @IBOutlet weak var checkOutDatePicker: UIDatePicker!
     
+    @IBOutlet weak var numberOfAdultsLabel: UILabel!
+    @IBOutlet weak var numberOfAdultsStepper: UIStepper!
+    @IBOutlet weak var numberOfChildrenLabel: UILabel!
+    @IBOutlet weak var numberOfChildrenStepper: UIStepper!
+    
+    @IBOutlet weak var wifiLabel: UILabel!
+    @IBOutlet weak var wifiSwitch: UISwitch!
     
     // MARK: - Properties
+        
+    var oneDayTimeInterval: TimeInterval {
+        return 60 * 60 * 24
+    }
     
     var dateFormatter: DateFormatter!
     
@@ -41,6 +52,7 @@ class RegistrationTableViewController: UITableViewController {
         
         setupDatePickers()
         updateDateLabels()
+        updateWiFiCostLabel()
     }
     
     // MARK: - Custom Methods
@@ -52,12 +64,18 @@ class RegistrationTableViewController: UITableViewController {
         let email = emailField.text ?? ""
         let checkInDate = checkInDatePicker.date
         let checkOutDate = checkOutDatePicker.date
+        let numberOfAdults = Int(numberOfAdultsStepper.value)
+        let numberOfChildren = Int(numberOfChildrenStepper.value)
+        let isWiFi = wifiSwitch.isOn
         
         print("First Name: ", firstName)
         print("Last Name: ", lastName)
         print("Email: ", email)
         print("Check In Date: ", dateFormatter.string(from: checkInDate))
         print("Check Out Date: ", dateFormatter.string(from: checkOutDate))
+        print("Number Of Adults: ", numberOfAdults)
+        print("Number Of Children: ", numberOfChildren)
+        print("Wi-Fi Included: ", isWiFi)
         
     }
     
@@ -73,12 +91,91 @@ class RegistrationTableViewController: UITableViewController {
         let midnightToday = Calendar.current.startOfDay(for: Date())
         checkInDatePicker.minimumDate = midnightToday
         checkInDatePicker.date = midnightToday
-        checkOutDatePicker.minimumDate = midnightToday.addingTimeInterval(60 * 60 * 24)
+        checkOutDatePicker.minimumDate = midnightToday.addingTimeInterval(oneDayTimeInterval)
     }
     
     private func updateDateLabels() {
         checkInDateLabel.text = dateFormatter.string(from: checkInDatePicker.date)
         checkOutDateLabel.text = dateFormatter.string(from: checkOutDatePicker.date)
+    }
+    
+    private func updateNumberOfGuestsLabels() {
+        numberOfAdultsLabel.text = String(Int(numberOfAdultsStepper.value))
+        numberOfChildrenLabel.text = String(Int(numberOfChildrenStepper.value))
+    }
+    
+    private func updateWiFiCostLabel() {
+        if wifiSwitch.isOn == false {
+           wifiLabel.text = "0$"
+        } else {
+           wifiLabel.text = String(Registration.calculateWiFiCost(fromDate: checkInDatePicker.date, toDate: checkOutDatePicker.date)) + "$"
+        }
+    }
+    
+    private func validateGuestInfoFields() -> Bool {
+        
+       guard let firstNameText = firstNameField.text else { return false }
+       guard let lastNameText = lastNameField.text else { return false }
+       guard let emailText = emailField.text else { return false }
+        
+       if firstNameText.count == 0 ||
+        lastNameText.count == 0 ||
+        emailText.count == 0 {
+          return false
+        }
+        
+       let decimalSet = CharacterSet.decimalDigits
+       let firstNameRange = firstNameText.rangeOfCharacter(from: decimalSet)
+       let lastNameRange = lastNameText.rangeOfCharacter(from: decimalSet)
+        
+       if firstNameRange != nil ||
+        lastNameRange != nil {
+        return false
+        }
+        
+        let charset: Set<Character> = ["@", "."]
+        if !charset.isSubset(of: emailText) {
+            return false
+        }
+        
+        return true
+    }
+    
+    // MARK: - IB Actions
+    
+    @IBAction func actionSaveButtonItem(_ sender: UIBarButtonItem) {
+        
+        if !validateGuestInfoFields() {
+            showAlertWithMessage("Make sure the guest information fields are correct")
+            return
+        }
+        
+        saveRegistration()
+    }
+    
+    @IBAction func datePickerValueChanged(_ datePicker: UIDatePicker) {
+        if (datePicker == checkInDatePicker) {
+            checkOutDatePicker.minimumDate = checkInDatePicker.date.addingTimeInterval(oneDayTimeInterval)
+        }
+        updateDateLabels()
+        updateWiFiCostLabel()
+    }
+    
+    @IBAction func stepperValueChanged(_ stepper: UIStepper) {
+        updateNumberOfGuestsLabels()
+    }
+    
+    @IBAction func switchValueChanged(_ sender: UISwitch) {
+        updateWiFiCostLabel()
+    }
+    
+    // MARK: - Navigations
+    
+    @IBAction func unwind(for unwindSegue: UIStoryboardSegue) {
+        if unwindSegue.identifier == "UnwindRoomTypes" {
+            let roomTypesVC = unwindSegue.source as! RoomTypesViewController
+            
+        }
     }
 
 }
