@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol RegistrationDelegate: class {
+    func saveRegistration(_ registration: Registration)
+}
+
 class RegistrationTableViewController: UITableViewController {
 
     // MARK: - IB Outlets
@@ -29,13 +33,17 @@ class RegistrationTableViewController: UITableViewController {
     @IBOutlet weak var wifiLabel: UILabel!
     @IBOutlet weak var wifiSwitch: UISwitch!
     
+    @IBOutlet weak var roomTypeLabel: UILabel!
+    
+    weak var delegate: RegistrationDelegate?
+    
     // MARK: - Properties
         
     var oneDayTimeInterval: TimeInterval {
         return 60 * 60 * 24
     }
     
-    var dateFormatter: DateFormatter!
+    var dateFormatter = DateFormatter.dateFormatterShortStyle()
     
     var checkInDatePickerShow = false
     var checkOutDatePickerShow = false
@@ -43,13 +51,13 @@ class RegistrationTableViewController: UITableViewController {
     let checkInDatePickerIndexPath = IndexPath(row: 1, section: 1)
     let checkOutDatePickerIndexPath = IndexPath(row: 3, section: 1)
     
+    var selectRoom: RoomType?
+    
     // MARK: - Life Cycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dateFormatter = obtainDateFormatter()
-        
         setupDatePickers()
         updateDateLabels()
         updateWiFiCostLabel()
@@ -57,7 +65,17 @@ class RegistrationTableViewController: UITableViewController {
     
     // MARK: - Custom Methods
     
-    private func saveRegistration() {
+    private func createNewRegistration() -> Registration? {
+        
+        if !validateGuestInfoFields() {
+            showAlertWithMessage("Make sure the guest information fields are correct")
+            return nil
+        }
+        
+        if selectRoom == nil {
+            showAlertWithMessage("Please, select a room type")
+            return nil
+        }
         
         let firstName = firstNameField.text ?? ""
         let lastName = lastNameField.text ?? ""
@@ -67,6 +85,7 @@ class RegistrationTableViewController: UITableViewController {
         let numberOfAdults = Int(numberOfAdultsStepper.value)
         let numberOfChildren = Int(numberOfChildrenStepper.value)
         let isWiFi = wifiSwitch.isOn
+        let room = selectRoom!
         
         print("First Name: ", firstName)
         print("Last Name: ", lastName)
@@ -77,14 +96,16 @@ class RegistrationTableViewController: UITableViewController {
         print("Number Of Children: ", numberOfChildren)
         print("Wi-Fi Included: ", isWiFi)
         
-    }
-    
-    private func obtainDateFormatter() -> DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.current
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .none
-        return dateFormatter
+        let registration = Registration(firstName: firstName,
+                                        lastName: lastName,
+                                        email: email,
+                                        checkInDate: checkInDate,
+                                        checkOutDate: checkOutDate,
+                                        numberOfAdults: numberOfAdults,
+                                        numberOfChildren: numberOfChildren,
+                                        isWiFi: isWiFi,
+                                        roomType: room)
+        return registration
     }
     
     private func setupDatePickers() {
@@ -143,16 +164,6 @@ class RegistrationTableViewController: UITableViewController {
     
     // MARK: - IB Actions
     
-    @IBAction func actionSaveButtonItem(_ sender: UIBarButtonItem) {
-        
-        if !validateGuestInfoFields() {
-            showAlertWithMessage("Make sure the guest information fields are correct")
-            return
-        }
-        
-        saveRegistration()
-    }
-    
     @IBAction func datePickerValueChanged(_ datePicker: UIDatePicker) {
         if (datePicker == checkInDatePicker) {
             checkOutDatePicker.minimumDate = checkInDatePicker.date.addingTimeInterval(oneDayTimeInterval)
@@ -169,16 +180,37 @@ class RegistrationTableViewController: UITableViewController {
         updateWiFiCostLabel()
     }
     
-    // MARK: - Navigations
+    @IBAction func actionSaveBarButtonItem() {
+        guard let registration = createNewRegistration() else { return }
+        delegate?.saveRegistration(registration)
+        navigationController?.popViewController(animated: true)
+    }
+    
+}
+
+// MARK: - Navigations
+
+extension RegistrationTableViewController {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowRoomTypes" {
+            let roomTypesVC = segue.destination as! RoomsViewController
+            roomTypesVC.selectedRoomType = selectRoom
+        }
+    }
     
     @IBAction func unwind(for unwindSegue: UIStoryboardSegue) {
         if unwindSegue.identifier == "UnwindRoomTypes" {
-            let roomTypesVC = unwindSegue.source as! RoomTypesViewController
-            
+            let roomTypesVC = unwindSegue.source as! RoomsViewController
+            if let selectedRoom = roomTypesVC.selectedRoomType {
+                selectRoom = selectedRoom
+                roomTypeLabel.text = selectedRoom.name
+            }
         }
     }
-
+    
 }
+
 
 // MARK: - Table View Delegate
 
@@ -225,6 +257,21 @@ extension RegistrationTableViewController {
         tableView.beginUpdates()
         tableView.endUpdates()
         
+    }
+    
+}
+
+extension RegistrationTableViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == firstNameField {
+            lastNameField.becomeFirstResponder()
+        } else if textField == lastNameField {
+            emailField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
     
 }

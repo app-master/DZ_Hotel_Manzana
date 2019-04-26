@@ -14,9 +14,11 @@
 		CE279F62226E072800AACEBD /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE279F61226E072800AACEBD /* Registration.swift */; };
 		CE279F64226E089300AACEBD /* RoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE279F63226E089300AACEBD /* RoomType.swift */; };
 		CEB38CA72271DFC3009A905A /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB38CA62271DFC3009A905A /* UIViewController+Alert.swift */; };
-		CEB38CA92271F343009A905A /* RoomTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB38CA82271F343009A905A /* RoomTypesViewController.swift */; };
+		CEB38CA92271F343009A905A /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB38CA82271F343009A905A /* RoomsViewController.swift */; };
 		CEF2CC4F2270E9B70020DD72 /* RegistrationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2CC4E2270E9B70020DD72 /* RegistrationTableViewController.swift */; };
 		CEF2CC522271043E0020DD72 /* IndexPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF2CC512271043E0020DD72 /* IndexPath+Extension.swift */; };
+		CEF511672273201200776133 /* GuestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF511662273201200776133 /* GuestsViewController.swift */; };
+		CEF5116922732FAC00776133 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF5116822732FAC00776133 /* DateFormatter+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +31,11 @@
 		CE279F61226E072800AACEBD /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		CE279F63226E089300AACEBD /* RoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomType.swift; sourceTree = "<group>"; };
 		CEB38CA62271DFC3009A905A /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
-		CEB38CA82271F343009A905A /* RoomTypesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTypesViewController.swift; sourceTree = "<group>"; };
+		CEB38CA82271F343009A905A /* RoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsViewController.swift; sourceTree = "<group>"; };
 		CEF2CC4E2270E9B70020DD72 /* RegistrationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTableViewController.swift; sourceTree = "<group>"; };
 		CEF2CC512271043E0020DD72 /* IndexPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "IndexPath+Extension.swift"; path = "../IndexPath+Extension.swift"; sourceTree = "<group>"; };
+		CEF511662273201200776133 /* GuestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestsViewController.swift; sourceTree = "<group>"; };
+		CEF5116822732FAC00776133 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,8 +116,9 @@
 		CEF2CC502270E9BE0020DD72 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CEF511662273201200776133 /* GuestsViewController.swift */,
 				CEF2CC4E2270E9B70020DD72 /* RegistrationTableViewController.swift */,
-				CEB38CA82271F343009A905A /* RoomTypesViewController.swift */,
+				CEB38CA82271F343009A905A /* RoomsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -123,6 +128,7 @@
 			children = (
 				CEF2CC512271043E0020DD72 /* IndexPath+Extension.swift */,
 				CEB38CA62271DFC3009A905A /* UIViewController+Alert.swift */,
+				CEF5116822732FAC00776133 /* DateFormatter+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -199,12 +205,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE279F62226E072800AACEBD /* Registration.swift in Sources */,
-				CEB38CA92271F343009A905A /* RoomTypesViewController.swift in Sources */,
+				CEB38CA92271F343009A905A /* RoomsViewController.swift in Sources */,
 				CE279F50226DE6ED00AACEBD /* AppDelegate.swift in Sources */,
 				CEF2CC4F2270E9B70020DD72 /* RegistrationTableViewController.swift in Sources */,
 				CE279F64226E089300AACEBD /* RoomType.swift in Sources */,
+				CEF5116922732FAC00776133 /* DateFormatter+Extension.swift in Sources */,
 				CEF2CC522271043E0020DD72 /* IndexPath+Extension.swift in Sources */,
 				CEB38CA72271DFC3009A905A /* UIViewController+Alert.swift in Sources */,
+				CEF511672273201200776133 /* GuestsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

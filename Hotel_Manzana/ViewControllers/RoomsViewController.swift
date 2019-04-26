@@ -8,12 +8,16 @@
 
 import UIKit
 
-class RoomTypesViewController: UIViewController {
+class RoomsViewController: UIViewController {
 
+    // MARK: - IB Outlets
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     // MARK: - Properties
     
-    let roomTypes = RoomTypes.loadRoomTypes()
-    var selectRoomType: RoomType?
+    var roomTypes = RoomTypes()
+    var selectedRoomType: RoomType?
     
     // MARK: - Life Cycle Methods
     
@@ -21,6 +25,7 @@ class RoomTypesViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.hidesBackButton = true
+        roomTypes = RoomTypes.loadRoomTypes()
     }
     
     // MARK: - Custom Methods
@@ -28,14 +33,23 @@ class RoomTypesViewController: UIViewController {
     private func configureCell(_ cell: UITableViewCell, with roomType: RoomType) {
         cell.textLabel?.text = roomType.name
         cell.detailTextLabel?.text = String(roomType.price) + " $"
+        
+        if selectedRoomType == roomType {
+            cell.accessoryType = .checkmark
+        }
     }
     
-    // MARK: IB Actions
-    
+    private func cellForRoomType(_ roomType: RoomType) -> UITableViewCell? {
+        if let index = roomTypes.firstIndex(of: roomType) {
+            let indexPath = IndexPath(row: index, section: 0)
+            return tableView.cellForRow(at: indexPath)
+        }
+        return nil
+    }
 
 }
 
-extension RoomTypesViewController: UITableViewDataSource {
+extension RoomsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return roomTypes.count
@@ -58,27 +72,21 @@ extension RoomTypesViewController: UITableViewDataSource {
         return cell!
     }
     
-    
 }
 
-extension RoomTypesViewController: UITableViewDelegate {
+extension RoomsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if let prevSelectRoomType = selectRoomType {
-            if let index = roomTypes.firstIndex(of: prevSelectRoomType) {
-               let indexPath = IndexPath(row: index, section: 0)
-               let prevCell = tableView.cellForRow(at: indexPath)
-               prevCell?.accessoryType = .none
-            }
-            
+        if let prevSelectedRoomType = selectedRoomType {
+            let prevCell = cellForRoomType(prevSelectedRoomType)
+            prevCell?.accessoryType = .none
         }
         
-        selectRoomType = roomTypes[indexPath.row]
-        let selectCell = tableView.cellForRow(at: indexPath)
-        selectCell?.accessoryType = .checkmark
-        
+        selectedRoomType = roomTypes[indexPath.row]
+        let selectedCell = tableView.cellForRow(at: indexPath)
+        selectedCell?.accessoryType = .checkmark
     }
     
 }
